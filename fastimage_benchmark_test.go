@@ -6,14 +6,6 @@ import (
 	"time"
 )
 
-// func BenchmarkSample(b *testing.B) {
-// 	for i := 0; i < b.N; i++ {
-// 		if x := fmt.Sprintf("%d", 42); x != "42" {
-// 			b.Fatalf("Unexpected string: %s", x)
-// 		}
-// 	}
-// }
-
 func BenchmarkCustomTimeout(b *testing.B) {
 	r := rand.New(rand.NewSource(time.Now().Unix()))
 	images, err := readSampleFile("imgsrc.log")
@@ -27,6 +19,7 @@ func BenchmarkCustomTimeout(b *testing.B) {
 	}
 	c := counter{}
 	for i := 0; i < b.N; i++ {
+<<<<<<< HEAD
 		url := images[r.Intn(len(images))]
 		_, _, err := DetectImageTypeWithTimeout(url, 1000)
 		// it, is, err := DetectImageTypeWithTimeout(url, 10000)
@@ -36,6 +29,10 @@ func BenchmarkCustomTimeout(b *testing.B) {
 		} else {
 			c.failure++
 		}
+=======
+		it, is, err := DetectImageTypeWithTimeout(url, 1000)
+		b.Logf("type:%v, size:%v, err:%v", it, is, err)
+>>>>>>> e1a1877e509a0bcf0acc307d7349ee49da3c54be
 	}
 	b.Logf("success:%v, failure:%v", c.success, c.failure)
 }
