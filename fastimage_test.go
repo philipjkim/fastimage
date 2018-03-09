@@ -1,7 +1,11 @@
 package fastimage
 
 import (
+	"bufio"
+	"math/rand"
+	"os"
 	"testing"
+	"time"
 )
 
 func TestPNGImage(t *testing.T) {
@@ -124,16 +128,34 @@ func TestTIFFImage(t *testing.T) {
 
 }
 
+func TestReadFile(t *testing.T) {
+	f, err := os.Open("imgsrc.log")
+	if err != nil {
+		t.Errorf("failed to open image source file : %v", err)
+	}
+	fs := bufio.NewScanner(f)
+	var images []string
+	for fs.Scan() {
+		images = append(images, fs.Text())
+	}
+
+	t.Logf("total entries:%v", len(images))
+}
+
 func TestCustomTimeout(t *testing.T) {
 	t.Parallel()
 
-	url := "http://loremflickr.com/500/500"
+	images, err := readSampleFile("imgsrc.log")
+	if err != nil {
+		t.Errorf("failed to open image source file : %v", err)
+	}
 
-	imagetype, size, err := DetectImageTypeWithTimeout(url, 1000)
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+	url := images[r.Intn(len(images))]
+	t.Logf("url: %v", url)
+
+	imagetype, size, err := DetectImageTypeWithTimeout(url, 500)
 	t.Logf("imageType: %v", imagetype)
 	t.Logf("size: %v", size)
 	t.Logf("error: %v", err)
-	if err == nil {
-		t.Error("Timeout expected, but not occurred")
-	}
 }
