@@ -28,7 +28,7 @@ func BenchmarkCustomTimeout(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		url := images[r.Intn(len(images))]
 		// _, _, err := DetectImageTypeWithTimeout(url, 1000)
-		it, is, err := DetectImageTypeWithTimeout2(url, 1000)
+		it, is, err := DetectImageTypeWithTimeout(url, 1000)
 		logfile.WriteString(fmt.Sprintf("url:%v, type:%v, size:%v, err:%v\n", url, it, is, err))
 		if err == nil {
 			c.success++

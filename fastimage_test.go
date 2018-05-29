@@ -154,7 +154,7 @@ func TestCustomTimeout(t *testing.T) {
 	url := images[r.Intn(len(images))]
 	t.Logf("url: %v", url)
 
-	imagetype, size, err := DetectImageTypeWithTimeout2(url, 500)
+	imagetype, size, err := DetectImageTypeWithTimeout(url, 500)
 	t.Logf("imageType: %v", imagetype)
 	t.Logf("size: %v", size)
 	t.Logf("error: %v", err)
